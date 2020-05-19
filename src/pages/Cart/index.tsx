@@ -27,7 +27,7 @@ import { useCart } from '../../hooks/cart';
 
 import formatValue from '../../utils/formatValue';
 
-interface Product {
+export interface Product {
   id: string;
   title: string;
   image_url: string;
@@ -39,23 +39,19 @@ const Cart: React.FC = () => {
   const { increment, decrement, products } = useCart();
 
   function handleIncrement(id: string): void {
-    // TODO
+    increment(id);
   }
 
   function handleDecrement(id: string): void {
-    // TODO
+    decrement(id);
   }
 
   const cartTotal = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
-
-    return formatValue(0);
+    return products.reduce((sum, cur) => sum + cur.price * cur.quantity, 0);
   }, [products]);
 
   const totalItensInCart = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
-
-    return 0;
+    return products.reduce((sum, cur) => sum + cur.quantity, 0);
   }, [products]);
 
   return (
@@ -108,7 +104,7 @@ const Cart: React.FC = () => {
       <TotalProductsContainer>
         <FeatherIcon name="shopping-cart" color="#fff" size={24} />
         <TotalProductsText>{`${totalItensInCart} itens`}</TotalProductsText>
-        <SubtotalValue>{cartTotal}</SubtotalValue>
+        <SubtotalValue>{formatValue(cartTotal)}</SubtotalValue>
       </TotalProductsContainer>
     </Container>
   );
